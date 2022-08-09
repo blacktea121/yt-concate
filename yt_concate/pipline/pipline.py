@@ -1,7 +1,7 @@
 from yt_concate.pipline.steps.step import StepException
 
 
-class Pipline():
+class Pipline:
     def __init__(self, steps):
         self.steps = steps
 

@@ -30,5 +30,5 @@ class GetVideoList(Step):
             except KeyError:
                 break
         print(video_links)
-        print(len(video_links))
+        print(f"連結數量: {len(video_links)}")
         return video_links
