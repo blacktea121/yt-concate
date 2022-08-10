@@ -3,13 +3,17 @@ from yt_concate.pipline.steps.get_vedio_list import GetVideoList
 from yt_concate.pipline.pipline import Pipline
 from yt_concate.pipline.steps.download_captions import DownloadCaptions
 from yt_concate.utils import Utils
+from yt_concate.pipline.steps.preflight import Preflight
+from yt_concate.pipline.steps.postflight import Postflight
 
 
 CHANNEL_ID = 'UC4GZ1dNQKWWFDQ4IWl4DezA'
 
 steps = [
-    # GetVideoList(),
+    Preflight(),
+    GetVideoList(),
     DownloadCaptions(),
+    Postflight(),
 ]
 
 

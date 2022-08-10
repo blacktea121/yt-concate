@@ -9,7 +9,8 @@ class Utils:
     def __init__(self):
         pass
 
-    def creat_dirs(self):
+    @staticmethod
+    def creat_dirs():
         os.makedirs(DOWNLOADS_DIR, exist_ok=True)
         os.makedirs(CAPTIONS_DIR, exist_ok=True)
         os.makedirs(VIDEOS_DIR, exist_ok=True)
