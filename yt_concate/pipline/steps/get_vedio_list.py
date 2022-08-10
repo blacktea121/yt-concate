@@ -5,7 +5,7 @@ from yt_concate.pipline.steps.step import Step
 
 
 class GetVideoList(Step):
-    def process(self, data, inputs):
+    def process(self, data, inputs, utils):
         channel_id = inputs['channel_id']
 
         base_video_url = 'https://www.youtube.com/watch?v='
@@ -29,6 +29,7 @@ class GetVideoList(Step):
                 url = first_url + '&pageToken={}'.format(next_page_token)
             except KeyError:
                 break
-        print(video_links)
+
         print(f"連結數量: {len(video_links)}")
+        print(video_links)
         return video_links

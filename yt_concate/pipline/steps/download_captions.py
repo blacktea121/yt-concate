@@ -5,22 +5,22 @@ from .step import Step
 
 
 class DownloadCaptions(Step):
-    def process(self, data, inputs):
+    def process(self, data, inputs, utils):
         for url in data:
             # url = 'https://www.youtube.com/watch?v=MVBC-elUsws'
             print(url)
 
             source = YouTube(url)
-            print(source.captions)
+            # print(source.captions)
             tw_caption = source.captions.get_by_language_code('zh-TW')
             xml = tw_caption.xml_captions  # 將語系轉換成 xml
             srt = self.xml2srt(xml)
 
             # save the caption
-            text_file = open("Output.txt", "w", encoding='utf-8')
+            text_file = open(self.get_video_id_from_url() + ".txt", "w", encoding='utf-8')
             text_file.write(srt)
             text_file.close()
-            # break
+
 
     @staticmethod
     def xml2srt(text):
