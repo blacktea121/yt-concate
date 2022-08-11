@@ -2,24 +2,31 @@ from pytube import YouTube
 from bs4 import BeautifulSoup
 
 from .step import Step
+from yt_concate.settings import CAPTIONS_DIR
 
 
 class DownloadCaptions(Step):
     def process(self, data, inputs, utils):
         for url in data:
-            # url = 'https://www.youtube.com/watch?v=MVBC-elUsws'
-            print(url)
+            print(f"{url}, 數量: {data.index(url)+1}/{len(data)}")
 
-            source = YouTube(url)
-            # print(source.captions)
-            tw_caption = source.captions.get_by_language_code('zh-TW')
-            xml = tw_caption.xml_captions  # 將語系轉換成 xml
+            if utils.caption_file_exist(utils.get_caption_path(url)):
+                continue
+
+            try:
+                source = YouTube(url)
+                # print(source.captions)
+                tw_caption = source.captions.get_by_language_code('zh-TW')
+                xml = tw_caption.xml_captions  # 將語系轉換成 xml
+            except AttributeError:
+                continue
+
             srt = self.xml2srt(xml)
-
             # save the caption
-            text_file = open(self.get_video_id_from_url() + ".txt", "w", encoding='utf-8')
+            text_file = open(utils.get_caption_path(url), "w", encoding='utf-8')
             text_file.write(srt)
             text_file.close()
+            print("下載成功: ", url)
 
 
     @staticmethod
