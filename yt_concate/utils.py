@@ -19,7 +19,7 @@ class Utils:
     def get_video_id_from_url(url):
         return url.split('watch?v=')[-1]
 
-    def get_caption_path(self, url):
+    def get_caption_filepath(self, url):
         return os.path.join(CAPTIONS_DIR, self.get_video_id_from_url(url) + ".txt")
 
     def get_video_list_filepath(self, channel_id):

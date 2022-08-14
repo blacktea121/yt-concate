@@ -10,7 +10,7 @@ class DownloadCaptions(Step):
         for url in data:
             print(f"{url}, 數量: {data.index(url)+1}/{len(data)}")
 
-            if utils.caption_file_exist(utils.get_caption_path(url)):
+            if utils.caption_file_exist(utils.get_caption_filepath(url)):
                 continue
 
             try:
@@ -23,11 +23,10 @@ class DownloadCaptions(Step):
 
             srt = self.xml2srt(xml)
             # save the caption
-            text_file = open(utils.get_caption_path(url), "w", encoding='utf-8')
+            text_file = open(utils.get_caption_filepath(url), "w", encoding='utf-8')
             text_file.write(srt)
             text_file.close()
             print("下載成功: ", url)
-
 
     @staticmethod
     def xml2srt(text):
