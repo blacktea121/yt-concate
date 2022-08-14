@@ -6,6 +6,7 @@ from yt_concate.pipline.steps.step import StepException
 from yt_concate.pipline.pipline import Pipline
 from yt_concate.pipline.steps.preflight import Preflight
 from yt_concate.pipline.steps.get_vedio_list import GetVideoList
+from yt_concate.pipline.steps.initialize_yt import InitializeYT
 from yt_concate.pipline.steps.download_captions import DownloadCaptions
 from yt_concate.pipline.steps.read_caption import ReadCaption
 from yt_concate.pipline.steps.postflight import Postflight
@@ -16,6 +17,7 @@ warnings.filterwarnings("ignore")
 steps = [
     Preflight(),
     GetVideoList(),
+    InitializeYT(),
     DownloadCaptions(),
     ReadCaption(),
     Postflight(),
@@ -25,6 +27,7 @@ steps = [
 def main():
     inputs = {
         'channel_id': CHANNEL_ID,
+        'search_word': yt.word,
     }
     utils = Utils()
     p = Pipline(steps)

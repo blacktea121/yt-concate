@@ -7,8 +7,9 @@ from yt_concate.settings import CAPTIONS_DIR
 
 class DownloadCaptions(Step):
     def process(self, data, inputs, utils):
-        for url in data:
-            print(f"{url}, 數量: {data.index(url)+1}/{len(data)}")
+        for yt_obj in data:
+            url = yt_obj.url
+            print(f"{url}, 數量: {data.index(yt)+1}/{len(data)}")
 
             if utils.caption_file_exist(utils.get_caption_filepath(url)):
                 continue
