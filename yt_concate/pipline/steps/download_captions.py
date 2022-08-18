@@ -7,11 +7,12 @@ from yt_concate.settings import CAPTIONS_DIR
 
 class DownloadCaptions(Step):
     def process(self, data, inputs, utils):
+        # return data
         for yt_obj in data:
             url = yt_obj.url
-            print(f"{url}, 數量: {data.index(yt)+1}/{len(data)}")
+            print(f"{url}, 數量: {data.index(yt_obj)+1}/{len(data)}")
 
-            if utils.caption_file_exist(utils.get_caption_filepath(url)):
+            if utils.caption_file_exist(yt_obj.get_caption_filepath()):
                 continue
 
             try:
@@ -28,6 +29,8 @@ class DownloadCaptions(Step):
             text_file.write(srt)
             text_file.close()
             print("下載成功: ", url)
+
+        return data
 
     @staticmethod
     def xml2srt(text):

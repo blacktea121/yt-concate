@@ -9,6 +9,8 @@ from yt_concate.pipline.steps.get_vedio_list import GetVideoList
 from yt_concate.pipline.steps.initialize_yt import InitializeYT
 from yt_concate.pipline.steps.download_captions import DownloadCaptions
 from yt_concate.pipline.steps.read_caption import ReadCaption
+from yt_concate.pipline.steps.search import Search
+from yt_concate.pipline.steps.downloadvideos import Downloadvideos
 from yt_concate.pipline.steps.postflight import Postflight
 
 
@@ -20,6 +22,8 @@ steps = [
     InitializeYT(),
     DownloadCaptions(),
     ReadCaption(),
+    Search(),
+    Downloadvideos(),
     Postflight(),
 ]
 
@@ -27,7 +31,7 @@ steps = [
 def main():
     inputs = {
         'channel_id': CHANNEL_ID,
-        'search_word': yt.word,
+        'search_word': '朋友',
     }
     utils = Utils()
     p = Pipline(steps)

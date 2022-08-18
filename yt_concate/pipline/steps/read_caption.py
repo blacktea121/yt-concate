@@ -1,8 +1,6 @@
-import os
 from pprint import pprint
 
 from yt_concate.pipline.steps.step import Step
-from yt_concate.settings import CAPTIONS_DIR
 
 
 class ReadCaption(Step):
@@ -31,7 +29,8 @@ class ReadCaption(Step):
                         dict_caption_taxi[caption_line] = caption_time
                         tf_time = False
 
-            yt_obj.caption = dict_caption_taxi
-            pprint(yt_obj.caption)
-        print("title: ", [yt_obj.id for yt_obj in data])
+            yt_obj.captions = dict_caption_taxi
+            # pprint(yt_obj.caption)
+        # print("title: ", [yt_obj.id for yt_obj in data])
+        return data
 
