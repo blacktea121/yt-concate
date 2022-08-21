@@ -1,5 +1,6 @@
 import warnings
 
+from yt_concate.set_command_line_args import get_cmd_args
 from yt_concate.settings import CHANNEL_ID
 from yt_concate.utils import Utils
 from yt_concate.pipline.steps.step import StepException
@@ -18,26 +19,28 @@ from yt_concate.pipline.steps.postflight import Postflight
 
 warnings.filterwarnings("ignore")
 
+# inputs = get_cmd_args()
+inputs = {
+    'channel_id': CHANNEL_ID,
+    'search_word': '朋友',
+    'limit': 20,
+}
+
 steps = [
     Preflight(),
     GetVideoList(),
     InitializeYT(),
     # DownloadCaptions(),
     DownloadCaptionsMultiThread(),
-    # ReadCaption(),
-    # Search(),
-    # DownloadVideos(),
-    # EditVideos(),
-    # Postflight(),
+    ReadCaption(),
+    Search(),
+    DownloadVideos(),
+    EditVideos(),
+    Postflight(),
 ]
 
 
 def main():
-    inputs = {
-        'channel_id': CHANNEL_ID,
-        'search_word': '朋友',
-        'limit': 20,
-    }
     utils = Utils()
     p = Pipline(steps)
     p.run(inputs, utils)
