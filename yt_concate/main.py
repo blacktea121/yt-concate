@@ -8,9 +8,11 @@ from yt_concate.pipline.steps.preflight import Preflight
 from yt_concate.pipline.steps.get_vedio_list import GetVideoList
 from yt_concate.pipline.steps.initialize_yt import InitializeYT
 from yt_concate.pipline.steps.download_captions import DownloadCaptions
+from yt_concate.pipline.steps.download_captions_with_multi_thread import DownloadCaptionsMultiThread
 from yt_concate.pipline.steps.read_caption import ReadCaption
 from yt_concate.pipline.steps.search import Search
-from yt_concate.pipline.steps.downloadvideos import Downloadvideos
+from yt_concate.pipline.steps.downloadvideos import DownloadVideos
+from yt_concate.pipline.steps.edit_videos import EditVideos
 from yt_concate.pipline.steps.postflight import Postflight
 
 
@@ -20,11 +22,13 @@ steps = [
     Preflight(),
     GetVideoList(),
     InitializeYT(),
-    DownloadCaptions(),
-    ReadCaption(),
-    Search(),
-    Downloadvideos(),
-    Postflight(),
+    # DownloadCaptions(),
+    DownloadCaptionsMultiThread(),
+    # ReadCaption(),
+    # Search(),
+    # DownloadVideos(),
+    # EditVideos(),
+    # Postflight(),
 ]
 
 
@@ -32,6 +36,7 @@ def main():
     inputs = {
         'channel_id': CHANNEL_ID,
         'search_word': '朋友',
+        'limit': 20,
     }
     utils = Utils()
     p = Pipline(steps)

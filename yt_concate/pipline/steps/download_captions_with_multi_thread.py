@@ -1,43 +1,73 @@
+import time
+
 from pytube import YouTube
 from bs4 import BeautifulSoup
 import os
-import time
+from threading import Thread
 
 from .step import Step
 from yt_concate.settings import CHANNEL_ID
 from yt_concate.settings import DOWNLOADS_DIR
 
 
-class DownloadCaptions(Step):
+class DownloadCaptionsMultiThread(Step):
     def process(self, data, inputs, utils):
-        # return data
         start = time.time()
-        for yt_obj in data:
-            url = yt_obj.url
-            print(f"{url}, 數量: {data.index(yt_obj)+1}/{len(data)}")
-
-            if utils.caption_file_exist(yt_obj.get_caption_filepath()):
-                continue
-
-            source = YouTube(url)
-            yt_obj.language = str(source.captions).split('=')[-1][1:-3]
-            print(yt_obj.language)
-            self.write_language_to_txt(yt_obj)
-
-            caption = self.get_support_lang_caption(source)
-            if not caption:
-                print("找不到支援字幕")
-                continue
-
-            xml = caption.xml_captions
-            srt = self.xml2srt(xml)
-
-            text_file = open(utils.get_caption_filepath(yt_obj.id), "w", encoding='utf-8')
-            text_file.write(srt)
-            text_file.close()
+        self.creat_multi_thread(data, utils)
         end = time.time()
+
         print(end - start)
         return data
+
+    def creat_multi_thread(self, data, utils):
+        func = self.download_caption
+        lst_thread = []
+        thread_nums = 0
+        thread_limit = 16
+
+        print("開始放入function")
+        for yt_obj in data:
+            lst_thread.append(Thread(target=func, args=[yt_obj, data, utils]))
+            thread_nums += 1
+
+            if thread_nums == thread_limit:
+                print("開始多工執行緒")
+                self.threads_start_to_end(lst_thread)
+                print("結束多工執行緒")
+
+                thread_nums = 0
+                lst_thread = []
+
+        print("結束放入function")
+
+    def threads_start_to_end(self, threads):
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join()
+
+    def download_caption(self, yt_obj, data, utils):
+        url = yt_obj.url
+        print(f"{url}, 數量: {data.index(yt_obj) + 1}/{len(data)}")
+
+        if utils.caption_file_exist(yt_obj.get_caption_filepath()):
+            return
+
+        source = YouTube(url)
+        yt_obj.language = str(source.captions).split('=')[-1][1:-3]
+        print(yt_obj.language)
+        self.write_language_to_txt(yt_obj)
+
+        caption = self.get_support_lang_caption(source)
+        if not caption:
+            print("找不到支援字幕")
+            return
+
+        xml = caption.xml_captions
+        srt = self.xml2srt(xml)
+
+        with open(utils.get_caption_filepath(yt_obj.id), "w", encoding='utf-8') as f:
+            f.write(srt)
 
     def get_support_lang_caption(self, source):
         first_lang = 'zh-TW'

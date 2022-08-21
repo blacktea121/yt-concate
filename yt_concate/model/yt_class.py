@@ -15,6 +15,7 @@ class YT:
         self.caption_filepath = self.get_caption_filepath()
         self.video_filepath = self.get_video_list_filepath()
         self.captions = None
+        self.language = None
 
     @ staticmethod
     def get_video_id_from_url(url):
