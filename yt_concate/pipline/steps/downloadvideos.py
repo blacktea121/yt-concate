@@ -17,7 +17,7 @@ class DownloadVideos(Step):
                 continue
 
             print(f'downloading video from {url}')
-            # YouTube(url).streams.first().download(output_path=VIDEOS_DIR, filename=yt.id + ".mp4")
-            YouTube(url).streams.get_highest_resolution().download(output_path=VIDEOS_DIR, filename=yt.id + ".mp4")
+            YouTube(url).streams.first().download(output_path=VIDEOS_DIR, filename=yt.id + ".mp4")
+            # YouTube(url).streams.get_highest_resolution().download(output_path=VIDEOS_DIR, filename=yt.id + ".mp4")
 
         return data
