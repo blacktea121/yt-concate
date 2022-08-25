@@ -5,6 +5,7 @@ from yt_concate.model.found import Found
 class Search(Step):
     def process(self, data, inputs: dict, utils):
         search_word = inputs['search_word']
+        print("搜尋字串: ", search_word)
         found = []
 
         for yt_obj in data:

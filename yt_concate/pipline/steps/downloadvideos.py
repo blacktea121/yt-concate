@@ -12,6 +12,7 @@ class DownloadVideos(Step):
 
         for yt in set_yt:
             url = yt.url
+            print(url)
             if utils.video_file_exist(yt.video_filepath):
                 print(f'video file is existing for {url}, skipping')
                 continue

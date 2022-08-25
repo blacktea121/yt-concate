@@ -10,6 +10,7 @@ def print_help():
     print("Python set_command_line_args.py OPTIONS")
     print("{:>6} {:<20} {}".format('', "--cleanup", "Remove captions and videos downloaded during run"))
     print("{:>6} {:<20} {}".format('', "--fast", "Skipping downloaded captions and videos if files exist"))
+    print("{:>6} {:<20} {}".format('', "--logger_level", "Set log-level to show in cmd"))
 
 
 def get_cmd_args():
@@ -23,9 +24,10 @@ def get_cmd_args():
     limit = ''
     cleanup = False
     fast = False
+    logger_level = 'DEBUG'
 
     short_arguments = "hc:s:l:"
-    long_arguments = "help channel_id= search_word= limit= cleanup= fast=".split()
+    long_arguments = "help channel_id= search_word= limit= cleanup= fast= logger_level=".split()
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], short_arguments, long_arguments)
@@ -49,6 +51,8 @@ def get_cmd_args():
             cleanup = arg
         elif opt == '--fast':
             fast = arg
+        elif opt == '--logger_level':
+            logger_level = arg
 
     if not channel_id or not search_word or not limit:
         print_help()
@@ -59,6 +63,7 @@ def get_cmd_args():
     print('limit is ', limit)
     print('cleanup is ', cleanup)
     print('fast is ', fast)
+    print('logger_level is ', logger_level)
 
     dict_args = {
         'channel_id': channel_id,
@@ -66,6 +71,7 @@ def get_cmd_args():
         'limit': limit,
         'cleanup': cleanup,
         'fast': fast,
+        'logger_level': logger_level,
     }
 
     return dict_args

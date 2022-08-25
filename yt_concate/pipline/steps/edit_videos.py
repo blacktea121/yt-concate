@@ -1,4 +1,5 @@
 import os.path
+import gc
 
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 
@@ -10,7 +11,8 @@ class EditVideos(Step):
     def process(self, data, inputs: dict, utils):
         lst_clip = []
         for found in data:
-            print(found.time)
+            print(found.yt.id)
+            # print(found.time)
             video_path = found.yt.video_filepath
             time_start, end_time = self.parse_video_time(found.time)
 
@@ -22,6 +24,8 @@ class EditVideos(Step):
         final_clip = concatenate_videoclips(lst_clip)
         output_video_filepath = utils.get_outputs_filepath(inputs['channel_id'], inputs['search_word'])
         final_clip.write_videofile(output_video_filepath)
+        del final_clip, video, lst_clip
+        gc.collect()
 
     def parse_video_time(self, srt_time):
         return  srt_time.split(" --> ")
